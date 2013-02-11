@@ -33,6 +33,8 @@ Addie was raised in what became the capital, at the heart of the new revolution.
 > *\*laughs\**
 >
 > No, I wasn't a competitor to him.  But a lot of folks were.  People like to point to weapons and armor when they think of a blacksmith, but his real livelihood was in horseshoes and wagon wheels, and that was where they were killing him.  It took him the better part of an afternoon to shoe a horse- now one man could make hundreds in a day, and sell them for nothing.
+>
+> What could he do?
 
 ### Professional Role
 
