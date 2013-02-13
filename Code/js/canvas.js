@@ -41,7 +41,7 @@ function renderMethod() {
 	gameCTX.textAlign = "center";
 	gameCTX.textBaseline = "center";
 	
-	gameCTX.fillText("LOADING", Math.floor(gameCanvas.width / 2), Math.floor(gameCanvas.height / 2));
+	gameCTX.fillText("LOADING...", Math.floor(gameCanvas.width / 2), Math.floor(gameCanvas.height / 2));
 }
 
 function finishLoadingImage() {

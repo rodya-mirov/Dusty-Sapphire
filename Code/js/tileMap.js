@@ -15,11 +15,20 @@ var tileMap = {
 	findTileIndexAt : function(xIndex, yIndex){
 		var seed = (xIndex & 65535) + (yIndex << 16); //combine them into a uniform seed
 
-		var rng = seed * seed % 14747;
+		var rng = seed * seed % 509203;
 		var mod = rng % 5;
 		
 //		alert("From (" + xIndex + "," + yIndex + ") we got a seed of (" + seed + ") and a result of (" + rng + ") which has a tile of (" + mod + ")");
 		return { x: mod, y: 0 };
+	},
+	
+	recenter : function(){
+		if(this.centerTarget && this.centerTarget.cameraCenter) {
+			var centerOn = this.centerTarget.cameraCenter();
+			
+			this.cameraLeftX = centerOn.x - (gameCanvas.width / 2);
+			this.cameraTopY = centerOn.y - (gameCanvas.height / 2);
+		}
 	}
 }
 

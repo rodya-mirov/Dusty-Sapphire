@@ -45,13 +45,17 @@ var isKeyDown = function(listOfKeys){
 document.addEventListener('keyup', function() { keysDown[event.keyCode] = 0; }, false);
 document.addEventListener('keydown', function() { keysDown[event.keyCode] = 1; }, false);
 
-var speed = 1;
+var speed = 2;
 
 var processKeyboardInput = function()
 {
-	if ( isKeyDown( [keyCodes.W, keyCodes.UP] ) ) { tileMap.cameraTopY -= speed; }
-	else if ( isKeyDown( [keyCodes.S, keyCodes.DOWN] ) ) { tileMap.cameraTopY += speed; }
+	var change = { dx: 0, dy: 0 };
 	
-	if ( isKeyDown( [keyCodes.A, keyCodes.LEFT] ) ) { tileMap.cameraLeftX -= speed; }
-	else if ( isKeyDown( [keyCodes.D, keyCodes.RIGHT] ) ) { tileMap.cameraLeftX += speed; }
+	if ( isKeyDown( [keyCodes.W, keyCodes.UP] ) ) { change.dy = -speed; }
+	else if ( isKeyDown( [keyCodes.S, keyCodes.DOWN] ) ) { change.dy = speed; }
+	
+	if ( isKeyDown( [keyCodes.A, keyCodes.LEFT] ) ) { change.dx = -speed; }
+	else if ( isKeyDown( [keyCodes.D, keyCodes.RIGHT] ) ) { change.dx = speed; }
+	
+	character.move(change.dx, change.dy);
 };
