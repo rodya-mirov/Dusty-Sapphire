@@ -1,7 +1,7 @@
 // Draw everything
 //this is the render method which will actually be used!
 var realRenderMethod = function() {
-	drawMap(gameCanvas.width, gameCanvas.height);
+	tileMap.drawMap(gameCanvas.width, gameCanvas.height);
 	drawWorldObject(character);
 }
 
@@ -14,8 +14,8 @@ var drawWorldObject = function(obj){
 		obj.drawWidth,
 		obj.drawHeight,
 		
-		obj.worldX + obj.drawOffsetX - tileMap.cameraLeftX,
-		obj.worldY + obj.drawOffsetY - tileMap.cameraTopY,
+		obj.worldX + obj.drawOffsetX - camera.leftX(),
+		obj.worldY + obj.drawOffsetY - camera.topY(),
 		obj.drawWidth,
 		obj.drawHeight
 		);
@@ -23,7 +23,7 @@ var drawWorldObject = function(obj){
 	//alert("Got drawn at (" + (obj.worldX + obj.drawOffsetX - tileMap.cameraLeftX) + "," + (obj.worldY + obj.drawOffsetY - tileMap.cameraTopY + ")"));
 }
 
-var render = function () { //this is just a temp value for render, which gets replaced when things are done loading
+var render = function () {
 	//blank out the screen
 	gameCTX.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 	
@@ -44,6 +44,8 @@ var gameLoop = function()
 	
 	processKeyboardInput();
 	processMouseInput();
+	
+	camera.update();
 	
 	render();
 	updateAndRenderFPS(elapsedTime);

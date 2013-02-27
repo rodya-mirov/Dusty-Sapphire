@@ -3,80 +3,168 @@ var squareTileset = new Image();
 squareTileset.src = "images/SquareTileSheet.png";
 squareTileset.onload = function() { finishLoadingImage(); }
 
-//for square tiles, the tile image is 42x42, but draws on a 32x32 space (put it at -5,-10)
-
 var tileMap = {
-	cameraLeftX: 0,
-	cameraTopY: 0,
-	
-	randomA: 22695477,
-	randomB: 1,
 
-	findTileIndexAt : function(xIndex, yIndex){
+	makeRandom: function(xIndex, yIndex) {
 		var seed = (xIndex & 65535) + (yIndex << 16); //combine them into a uniform seed
-
-		var rng = seed * seed % 509203;
-		var mod = rng % 5;
-		
-//		alert("From (" + xIndex + "," + yIndex + ") we got a seed of (" + seed + ") and a result of (" + rng + ") which has a tile of (" + mod + ")");
-		return { x: mod, y: 0 };
+		return (seed * seed) % 509203;
 	},
-	
-	recenter : function(){
-		if(this.centerTarget && this.centerTarget.cameraCenter) {
-			var centerOn = this.centerTarget.cameraCenter();
-			
-			this.cameraLeftX = centerOn.x - (gameCanvas.width / 2);
-			this.cameraTopY = centerOn.y - (gameCanvas.height / 2);
-		}
-	}
-}
+};
 
-var drawMap = function(screenWidth, screenHeight) {
-	screenWidth += 5; //this is to compensate for tile overflow
+tileMap.findTileIndexAt = function(xIndex, yIndex){
+	if (xIndex == 0 && yIndex == 0) {
+		return {x: 1, y: 1};
+	}
+	if (xIndex == 1 && yIndex == 1) {
+		return {x: 0, y: 2};
+	}
+	if (xIndex == 2 && yIndex == 1) {
+		return {x: 0, y: 2};
+	}
+	if (xIndex == 2 && yIndex == 2) {
+		return {x: 0, y: 2};
+	}
+	if (xIndex == 2 && yIndex == 3) {
+		return {x: 0, y: 2};
+	}
+	else {
+		return {x: 0, y: 1};
+	}
+};
+
+tileMap.drawMap = function(screenWidth, screenHeight) {
+	var translation = {
+		x: screenWidth >> 1, //center, then move a little to deal with the
+		y: screenHeight >> 1 //nature of tiles (which start at +5,+10
+	};
 	
-	var cameraLeftX = Math.floor(tileMap.cameraLeftX);
-	var cameraTopY = Math.floor(tileMap.cameraTopY);
+	//set up the (map) tile change as the (screen) tile changes
+	var rightTileChange;
+	var downTileChange;
+	var tileCenter = {
+		x: camera.centerX >> 5,
+		y: camera.centerY >> 5,
+	};
 	
-	var drawOffsetX, drawOffsetY;
-	var leftTileX, topTileY;
+	var additionalTranslation = {
+		x: camera.centerX - tileCenter.x * 32,
+		y: camera.centerY - tileCenter.y * 32,
+	}
 	
-	drawOffsetX = -(cameraLeftX % 32);
-	if (drawOffsetX > 0) { drawOffsetX -= 32; }
-	leftTileX = (cameraLeftX + drawOffsetX) / 32;
-	
-	drawOffsetY = -(cameraTopY % 32);
-	if (drawOffsetY > 0) { drawOffsetY -= 32; }
-	topTileY = (cameraTopY + drawOffsetY) / 32;
-	
-	var topY, leftX;
-	var tileX, tileY;
-	
-	topY = drawOffsetY - 10;
-	tileY = topTileY;
-	
-	//draw each row
-	while (topY < screenHeight) {
-		leftX = drawOffsetX - 5;
-		tileX = leftTileX;
+	switch(camera.rotation) {
+		case 0:
+			rightTileChange = { dx: 1, dy: 0 };
+			downTileChange = { dx: 0, dy: 1 };
+			
+			additionalTranslation = {
+				x: additionalTranslation.x,
+				y: additionalTranslation.y,
+			};
+			
+			//alert("(" + additionalTranslation.x + "," + additionalTranslation.y + ")");
+			
+			break;
 		
-		//draw the squares in each row
-		while (leftX < screenWidth + 5) {
-			var tile = tileMap.findTileIndexAt(tileX, tileY);
+		case 90:
+			rightTileChange = { dx: 0, dy: -1 };
+			downTileChange = { dx: 1, dy: 0 };
+			
+			additionalTranslation = {
+				x: 32 - additionalTranslation.y,
+				y: additionalTranslation.x,
+			};
+			
+			break;
+		
+		case 180:
+			rightTileChange = { dx: -1, dy: 0 };
+			downTileChange = { dx: 0, dy: -1 };
+			
+			additionalTranslation = {
+				x: 32 - additionalTranslation.x,
+				y: 32 - additionalTranslation.y,
+			};
+			break;
+		
+		case 270:
+			rightTileChange = { dx: 0, dy: 1 };
+			downTileChange = { dx: -1, dy: 0 };
+			
+			additionalTranslation = {
+				x: additionalTranslation.y,
+				y: 32 - additionalTranslation.x,
+			};
+			break;
+	}
+	
+	translation.x -= additionalTranslation.x;
+	translation.y -= additionalTranslation.y;
+	
+	//go this many from center
+	var tilesLeft = 5;
+	var tilesUp = 5;
+	
+	//which means we'll start here, in the (screen's) upper left corner
+	var startTile = {
+		x: tileCenter.x - tilesLeft * rightTileChange.dx - tilesUp * downTileChange.dx,
+		y: tileCenter.y - tilesLeft * rightTileChange.dy - tilesUp * downTileChange.dy,
+	};
+	
+	var tilesWide = 2 * tilesLeft + 1;
+	var tilesTall = 2 * tilesUp + 1;
+	
+	var currentTile = {};
+	
+	var startDrawPos = {
+		x: -tilesLeft * 32 - 5,
+		y: -tilesUp * 32 - 10,
+	};
+	
+	var drawPos = {};
+	
+	//move the "center" of the map from the UL corner to the center of the screen
+	gameCTX.translate(translation.x, translation.y );
+	
+	if (camera.rotationFrames > 0) {
+		gameCTX.rotate(camera.rotationInertia);
+	}
+	
+	drawPos.x = startDrawPos.x;
+	for (var i = 0; i < tilesWide; i += 1)
+	{
+		currentTile.x = startTile.x;
+		currentTile.y = startTile.y;
+		
+		drawPos.y = startDrawPos.y;
+		
+		for (var j = 0; j < tilesTall; j += 1)
+		{
+			tile = tileMap.findTileIndexAt(currentTile.x, currentTile.y);
 			
 			gameCTX.drawImage(
-				squareTileset, 
-				tile.x * 42, tile.y * 42, 42, 42, //find the tile coordinates in the image
-				leftX, topY, 42, 42
+				squareTileset,
+				//in-image position
+				tile.x * 42, tile.y * 42, 42, 42,
+				//screen position
+				drawPos.x, drawPos.y, 42, 42
 				);
 			
-			//alert("Drawing tile (" + tileX + "," + tileY + ") at (" + leftX + "," + topY + ")");
+			currentTile.x += downTileChange.dx;
+			currentTile.y += downTileChange.dy;
 			
-			leftX += 32;
-			tileX ++;
+			drawPos.y += 32;
 		}
 		
-		topY += 32;
-		tileY ++;
+		startTile.x += rightTileChange.dx;
+		startTile.y += rightTileChange.dy;
+		
+		drawPos.x += 32;
 	}
+	
+	if (camera.rotationFrames > 0) {
+		gameCTX.rotate(-camera.rotationInertia);
+	}
+	
+	//and fix the translation
+	gameCTX.translate(-(translation.x), -(translation.y));
 }

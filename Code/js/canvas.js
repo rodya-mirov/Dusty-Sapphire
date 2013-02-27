@@ -8,7 +8,7 @@ window.onload = function() {
 	gameCanvas.width = 800;
 	gameCanvas.height = 600;
 	
-	gameCTX.fillStyle = "rgb(255, 255, 255)";
+	gameCTX.fillStyle = "rgb(255, 75, 75)";
 	gameCTX.font = "16px Helvetica";
 	gameCTX.textAlign = "right";
 	gameCTX.textBaseline = "bottom";

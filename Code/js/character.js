@@ -7,8 +7,8 @@ var character = {
 	worldX: 0,
 	worldY: 0,
 	
-	drawOffsetX: -30,
-	drawOffsetY: -49,
+	drawOffsetX: -32,
+	drawOffsetY: -48,
 	
 	drawWidth: 64,
 	drawHeight: 64,
@@ -23,24 +23,26 @@ var character = {
 	image: womanSprite,
 	
 	move: function(dx, dy) {
-		this.worldX += dx;
-		this.worldY += dy;
 		
-		if (dx < 0 && dy < 0) { this.drawY = 128; }
-		else if (dx < 0 && dy == 0) { this.drawY = 448; }
-		else if (dx < 0 && dy > 0) { this.drawY = 0; }
+		if (dx < 0 && dy < 0) { this.drawY = 128; } //UL
+		else if (dx < 0 && dy == 0) { this.drawY = 448; } //L
+		else if (dx < 0 && dy > 0) { this.drawY = 0; } //DL
 		
-		else if (dx == 0 && dy < 0) { this.drawY = 320; }
-		else if (dx == 0 && dy > 0) { this.drawY = 256; }
+		else if (dx == 0 && dy < 0) { this.drawY = 320; } //U
+		else if (dx == 0 && dy > 0) { this.drawY = 256; } //D
 		
-		else if (dx > 0 && dy < 0) { this.drawY = 192; }
-		else if (dx > 0 && dy == 0) { this.drawY = 384; }
-		else if (dx > 0 && dy > 0) { this.drawY = 64; }
+		else if (dx > 0 && dy < 0) { this.drawY = 192; } //UR
+		else if (dx > 0 && dy == 0) { this.drawY = 384; } //R
+		else if (dx > 0 && dy > 0) { this.drawY = 64; } //DR
 		
-		if (tileMap.centerTarget == this) {
-			tileMap.recenter();
+		if (camera.centerTarget == this) {
+			camera.recenter();
 		}
+		
+		var change = rotateVector({ dx: dx, dy: dy }, camera.rotation);
+		this.worldX += change.dx;
+		this.worldY += change.dy;
 	},
 };
 
-tileMap.centerTarget = character;
+camera.centerTarget = character;
