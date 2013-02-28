@@ -3,6 +3,8 @@
 var realRenderMethod = function() {
 	tileMap.drawMap(gameCanvas.width, gameCanvas.height);
 	drawWorldObject(character);
+	
+	compass.draw(gameCanvas.width, gameCanvas.height);
 }
 
 var drawWorldObject = function(obj){

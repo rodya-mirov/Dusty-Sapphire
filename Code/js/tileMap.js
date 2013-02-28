@@ -1,7 +1,4 @@
-imagesToLoad++;
-var squareTileset = new Image();
-squareTileset.src = "images/SquareTileSheet.png";
-squareTileset.onload = function() { finishLoadingImage(); }
+var squareTileset = loadImage("images/SquareTileSheet.png");
 
 var tileMap = {
 

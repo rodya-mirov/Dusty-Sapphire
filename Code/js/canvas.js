@@ -1,8 +1,14 @@
-
-
 //set up the canvas
 var gameCanvas = document.getElementById("gameCanvas");
 var gameCTX = gameCanvas.getContext("2d");
+
+var loadImage = function(fileName) {
+	imagesToLoad++;
+	var output = new Image();
+	output.src = fileName;
+	output.onload = finishLoadingImage;
+	return output;
+}
 
 window.onload = function() {
 	gameCanvas.width = 800;

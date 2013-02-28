@@ -1,8 +1,3 @@
-imagesToLoad++;
-var womanSprite = new Image();
-womanSprite.src = "images/Addie.png";
-womanSprite.onload = function() { finishLoadingImage(); }
-
 var character = {
 	worldX: 0,
 	worldY: 0,
@@ -20,7 +15,7 @@ var character = {
 		return { x: this.worldX, y: this.worldY };
 	},
 	
-	image: womanSprite,
+	image: loadImage("images/Addie.png"),
 	
 	move: function(dx, dy) {
 		
