@@ -81,8 +81,15 @@ tileMap.drawMap = function(screenWidth, screenHeight) {
 	}
 	
 	//go this many from center
-	var tilesLeft = 5;
-	var tilesUp = 5;
+	var tilesLeft = (screenWidth >> 6) + 1; //half the screen width, divided by 32
+	var tilesUp = (screenHeight >> 6) + 1; //as above
+	
+	if (camera.rotationFrames > 1) //while spinning, the calculations get a little weirder
+	{ //basically, just draw 1.5 times as many, and make it a big square
+		if (tilesLeft < tilesUp) { tilesLeft = tilesUp; }
+		tilesLeft += tilesLeft >> 1;
+		tilesUp = tilesLeft;
+	}
 	
 	//which means we'll start here, in the (screen's) upper left corner
 	var startTile = {

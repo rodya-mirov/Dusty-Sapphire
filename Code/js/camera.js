@@ -28,7 +28,7 @@ var camera = {
 	
 	rotationInertia: 0,
 	rotationFrames: 0,
-	maxRotationFrames: 18,
+	maxRotationFrames: 15,
 	inertialIncrement: 0,
 	
 	update: function() {

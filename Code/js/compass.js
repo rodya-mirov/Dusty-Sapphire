@@ -4,8 +4,8 @@ compass.image = loadImage("images/compass.png");
 
 compass.draw = function(screenWidth, screenHeight) {
 	var translation = {
-		x: screenWidth - 100,
-		y: 100
+		x: screenWidth - 80,
+		y: 20
 	};
 
 	gameCTX.translate(translation.x, translation.y);
@@ -13,6 +13,9 @@ compass.draw = function(screenWidth, screenHeight) {
 	if (camera) {
 		gameCTX.translate(30, 50);
 		gameCTX.rotate((Math.PI * camera.rotation) / 180);
+		if (camera.rotationFrames > 0) {
+			gameCTX.rotate(camera.rotationInertia);
+		}
 		gameCTX.translate(-30, -50);
 	}
 	
@@ -21,6 +24,9 @@ compass.draw = function(screenWidth, screenHeight) {
 	if (camera) {
 		gameCTX.translate(30, 50);
 		gameCTX.rotate(-(Math.PI * camera.rotation) / 180);
+		if (camera.rotationFrames > 0) {
+			gameCTX.rotate(-camera.rotationInertia);
+		}
 		gameCTX.translate(-30, -50);
 	}
 	gameCTX.translate(-translation.x, -translation.y);
