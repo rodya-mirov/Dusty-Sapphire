@@ -12,24 +12,10 @@ var tileMap = {
 };
 
 tileMap.findTileIndexAt = function(xIndex, yIndex){
-	if (xIndex == 0 && yIndex == 0) {
-		return {x: 1, y: 1};
-	}
-	if (xIndex == 1 && yIndex == 1) {
-		return {x: 0, y: 2};
-	}
-	if (xIndex == 2 && yIndex == 1) {
-		return {x: 0, y: 2};
-	}
-	if (xIndex == 2 && yIndex == 2) {
-		return {x: 0, y: 2};
-	}
-	if (xIndex == 2 && yIndex == 3) {
-		return {x: 0, y: 2};
-	}
-	else {
-		return {x: 0, y: 1};
-	}
+	return {
+		x: this.makeRandom(xIndex, yIndex) % 5,
+		y: 0
+	};
 };
 
 tileMap.drawMap = function(screenWidth, screenHeight) {
@@ -97,9 +83,6 @@ tileMap.drawMap = function(screenWidth, screenHeight) {
 			break;
 	}
 	
-	translation.x -= additionalTranslation.x;
-	translation.y -= additionalTranslation.y;
-	
 	//go this many from center
 	var tilesLeft = 5;
 	var tilesUp = 5;
@@ -115,9 +98,14 @@ tileMap.drawMap = function(screenWidth, screenHeight) {
 	
 	var currentTile = {};
 	
+	/*
+	translation.x -= additionalTranslation.x;
+	translation.y -= additionalTranslation.y;
+	*/
+	
 	var startDrawPos = {
-		x: -tilesLeft * 32 - 5,
-		y: -tilesUp * 32 - 10,
+		x: -tilesLeft * 32 - 5 - additionalTranslation.x,
+		y: -tilesUp * 32 - 10 - additionalTranslation.y,
 	};
 	
 	var drawPos = {};

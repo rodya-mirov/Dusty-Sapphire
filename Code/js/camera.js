@@ -1,5 +1,3 @@
-
-
 var rotateVector = function(changeVector, rotationAmount) {
 	if (rotationAmount == 0) {
 		return changeVector;
@@ -30,7 +28,8 @@ var camera = {
 	
 	rotationInertia: 0,
 	rotationFrames: 0,
-	maxRotationFrames: 60,
+	maxRotationFrames: 18,
+	inertialIncrement: 0,
 	
 	update: function() {
 		if (this.rotationFrames > 0) {
@@ -41,7 +40,7 @@ var camera = {
 				this.rotationFrames = 0;
 			}
 			else {
-				this.rotationInertia += Math.PI / (4 * this.maxRotationFrames);
+				this.rotationInertia += this.inertialIncrement / this.maxRotationFrames;
 			}
 		}
 	}
@@ -59,10 +58,13 @@ camera.recenter = function(){
 };
 
 camera.rotate = function(degrees) {
-	this.rotation += degrees;
-	this.rotation %= 360;
-	if (this.rotation < 0) { this.rotation += 360; }
-	
-	this.rotationFrames = 1;
-	this.rotationInertia = -Math.PI / 4;
+	if(this.rotationFrames == 0) { //only rotate if we're not done with the previous one
+		this.rotation += degrees;
+		this.rotation %= 360;
+		if (this.rotation < 0) { this.rotation += 360; }
+		
+		this.rotationFrames = 1;
+		this.inertialIncrement = degrees * Math.PI / 180;
+		this.rotationInertia = -this.inertialIncrement;
+	}
 };

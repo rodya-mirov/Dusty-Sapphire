@@ -35,13 +35,13 @@ var character = {
 		else if (dx > 0 && dy == 0) { this.drawY = 384; } //R
 		else if (dx > 0 && dy > 0) { this.drawY = 64; } //DR
 		
-		if (camera.centerTarget == this) {
-			camera.recenter();
-		}
-		
 		var change = rotateVector({ dx: dx, dy: dy }, camera.rotation);
 		this.worldX += change.dx;
 		this.worldY += change.dy;
+		
+		if (camera.centerTarget == this) {
+			camera.recenter();
+		}
 	},
 };
 

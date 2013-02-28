@@ -61,22 +61,9 @@ var processKeyboardInput = function()
 	character.move(change.dx, change.dy);
 	
 	if (isKeyDown( [keyCodes.E] ) ) {
-		if (keysAlreadyHeld[keyCodes.E] != 1) {
-			camera.rotate(90);
-			keysAlreadyHeld[keyCodes.E] = 1;
-		}
+		camera.rotate(90);
 	}
-	else {
-		keysAlreadyHeld[keyCodes.E] = 0;
-	}
-	
 	if (isKeyDown( [keyCodes.Q] ) ) {
-		if (keysAlreadyHeld[keyCodes.Q] != 1) {
-			camera.rotate(-90);
-			keysAlreadyHeld[keyCodes.Q] = 1;
-		}
-	}
-	else {
-		keysAlreadyHeld[keyCodes.Q] = 0;
+		camera.rotate(-90);
 	}
 };
