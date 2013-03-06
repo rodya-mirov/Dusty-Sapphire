@@ -1,4 +1,6 @@
-Code/images/
+*.png
+*.xcf
+Theology.md
 
 #################
 ## WebStorm

@@ -2,12 +2,14 @@
 //this is the render method which will actually be used!
 var realRenderMethod = function() {
 	tileMap.drawMap(gameCanvas.width, gameCanvas.height);
-	drawWorldObject(character);
+	drawWorldObject(playerCharacter);
 	
 	compass.draw(gameCanvas.width, gameCanvas.height);
 }
 
 var drawWorldObject = function(obj){
+    var drawPos = obj.drawPosition();
+
 	gameCTX.drawImage(
 		obj.image,
 		
@@ -16,13 +18,11 @@ var drawWorldObject = function(obj){
 		obj.drawWidth,
 		obj.drawHeight,
 		
-		obj.worldX + obj.drawOffsetX - camera.leftX(),
-		obj.worldY + obj.drawOffsetY - camera.topY(),
+		drawPos.x - camera.leftX(),
+		drawPos.y - camera.topY(),
 		obj.drawWidth,
 		obj.drawHeight
 		);
-	
-	//alert("Got drawn at (" + (obj.worldX + obj.drawOffsetX - tileMap.cameraLeftX) + "," + (obj.worldY + obj.drawOffsetY - tileMap.cameraTopY + ")"));
 }
 
 var render = function () {

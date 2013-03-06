@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dusty Sapphire", "Dusty Sapphire\Dusty Sapphire\Dusty Sapphire.csproj", "{91800ECB-35BD-467F-A08F-52BB7FCFF2CC}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Dusty SapphireContent", "Dusty Sapphire\Dusty SapphireContent\Dusty SapphireContent.contentproj", "{E0BEDD39-9FE0-4E5C-9734-541F5AEB099A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91800ECB-35BD-467F-A08F-52BB7FCFF2CC}.Debug|x86.ActiveCfg = Debug|x86
+		{91800ECB-35BD-467F-A08F-52BB7FCFF2CC}.Debug|x86.Build.0 = Debug|x86
+		{91800ECB-35BD-467F-A08F-52BB7FCFF2CC}.Release|x86.ActiveCfg = Release|x86
+		{91800ECB-35BD-467F-A08F-52BB7FCFF2CC}.Release|x86.Build.0 = Release|x86
+		{E0BEDD39-9FE0-4E5C-9734-541F5AEB099A}.Debug|x86.ActiveCfg = Debug|x86
+		{E0BEDD39-9FE0-4E5C-9734-541F5AEB099A}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
