@@ -17,7 +17,8 @@
     <XnaCrossPlatformGroupID>2f6374b5-06a6-4963-b1a1-6e6c24096a74</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Thumbnail>GameThumbnail.png</Thumbnail>
+    <Thumbnail>
+    </Thumbnail>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -106,20 +107,21 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="TileEngine">
-      <HintPath>..\..\..\TileEngine\TileEngine\bin\x86\Debug\TileEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\TileEngine\TileEngine\bin\x86\Debug\TileEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Maps\GameMap.cs" />
     <Compile Include="Maps\MapManager.cs" />
+    <Compile Include="Maps\SapphireMapCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Rendering\TileMapComponent.cs" />
     <Compile Include="SapphireGame.cs" />
+    <Compile Include="Utilities\BBSRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
-    <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dusty SapphireContent\Dusty SapphireContent.contentproj">

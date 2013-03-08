@@ -19,7 +19,7 @@ namespace Dusty_Sapphire
     /// </summary>
     public class SapphireGame : Microsoft.Xna.Framework.Game
     {
-        public bool useUnboundedFrameRate { get; private set; }
+        public bool UseUnboundedFrameRate { get; private set; }
 
         private GraphicsDeviceManager graphics;
         private MapManager mapManager;
@@ -33,6 +33,8 @@ namespace Dusty_Sapphire
         public SapphireGame()
         {
             this.IsMouseVisible = true;
+            this.UseUnboundedFrameRate = true;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -48,7 +50,7 @@ namespace Dusty_Sapphire
             Tile.TileVisualOffsetX = 0;
             Tile.TileVisualOffsetY = 48;
 
-            mapManager = new MapManager(this, @"Textures\TileSets\TileSheet");
+            mapManager = new MapManager(this, @"Textures\TileSets\IsometricTiles");
             mapComponent = new TileMapComponent<InGameObject>(this, mapManager);
             Components.Add(mapComponent);
 
@@ -61,7 +63,7 @@ namespace Dusty_Sapphire
             preferredWindowedWidth = graphics.PreferredBackBufferWidth;
             preferredWindowedHeight = graphics.PreferredBackBufferHeight;
 
-            if (useUnboundedFrameRate)
+            if (UseUnboundedFrameRate)
             {
                 this.IsFixedTimeStep = false;
                 this.graphics.SynchronizeWithVerticalRetrace = false;
@@ -153,19 +155,21 @@ namespace Dusty_Sapphire
             }
         }
 
+        private int cameraMoveSpeed = 2;
+
         private void cameraMovementKeyboard(KeyboardState ks)
         {
             if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A))
-                Camera.Move(-2, 0);
+                Camera.Move(-cameraMoveSpeed, 0);
 
             if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D))
-                Camera.Move(2, 0);
+                Camera.Move(cameraMoveSpeed, 0);
 
             if (ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W))
-                Camera.Move(0, -2);
+                Camera.Move(0, -cameraMoveSpeed);
 
             if (ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S))
-                Camera.Move(0, 2);
+                Camera.Move(0, cameraMoveSpeed);
         }
         #endregion
 

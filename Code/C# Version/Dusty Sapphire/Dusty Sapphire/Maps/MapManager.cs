@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Dusty_Sapphire.Maps
 {
-    public class MapManager : TileMapManager<InGameObject, MapCell, GameMap>
+    public class MapManager : TileMapManager<InGameObject, SapphireMapCell, GameMap>
     {
         protected readonly List<InGameObject> managedObjects = new List<InGameObject>();
 
