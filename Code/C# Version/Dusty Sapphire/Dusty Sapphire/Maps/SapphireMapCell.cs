@@ -9,20 +9,72 @@ namespace Dusty_Sapphire.Maps
 {
     public class SapphireMapCell : MapCell, Copyable<SapphireMapCell>
     {
+        #region Borders
+        private bool useBorders;
+        protected override bool UseBorders { get { return useBorders; } }
+
+        private bool useLeftBorder, useRightBorder, useTopBorder, useBottomBorder;
+
+        protected override bool UseTopBorder { get { return useTopBorder; } }
+        protected override bool UseBottomBorder { get { return useBottomBorder; } }
+        protected override bool UseLeftBorder { get { return useLeftBorder; } }
+        protected override bool UseRightBorder { get { return useRightBorder; } }
+
+        public void SetTopBorder(bool use)
+        {
+            this.useTopBorder = use;
+            this.useBorders = (useTopBorder || useBottomBorder || useRightBorder || useLeftBorder);
+        }
+
+        public void SetLeftBorder(bool use)
+        {
+            this.useLeftBorder = use;
+            this.useBorders = (useTopBorder || useBottomBorder || useRightBorder || useLeftBorder);
+        }
+
+        public void SetRightBorder(bool use)
+        {
+            this.useRightBorder = use;
+            this.useBorders = (useTopBorder || useBottomBorder || useRightBorder || useLeftBorder);
+        }
+
+        public void SetBottomBorder(bool use)
+        {
+            this.useBottomBorder = use;
+            this.useBorders = (useTopBorder || useBottomBorder || useRightBorder || useLeftBorder);
+        }
+
+        protected override int BottomBorderTileIndex { get { return 73; } }
+        protected override int TopBorderTileIndex { get { return 71; } }
+        protected override int RightBorderTileIndex { get { return 72; } }
+        protected override int LeftBorderTileIndex { get { return 70; } }
+        #endregion
+
         public int Height { get { return Tile.HeightTileOffset * (HighestLevel - LowestLevel); } }
 
         private int HighestLevel = 0;
         private int LowestLevel = 0;
 
         /// <summary>
-        /// Default constructor, where one must set a base tile and an
+        /// Default constructor, where one must set an
         /// elevation (no default arguments available).
+        /// 
+        /// optionally, one may provide an array of border information;
+        /// if not provided, no borders will be used.  If it is provided,
+        /// the first is the left (NW), the second is the bottom (NE),
+        /// the third is the right (SE), the fourth is the top (SW).
         /// </summary>
-        /// <param name="baseTile"></param>
         /// <param name="elevation"></param>
-        public SapphireMapCell(int baseTile, int elevation)
-            : base(baseTile)
+        /// <param name="borderInformation"></param>
+        public SapphireMapCell(int elevation)
+            : base()
         {
+            this.useBorders = false;
+            this.useBottomBorder = false;
+            this.useTopBorder = false;
+            this.useRightBorder = false;
+            this.useLeftBorder = false;
+
             this.VisualElevation = elevation;
         }
 
@@ -56,6 +108,11 @@ namespace Dusty_Sapphire.Maps
 
             output.HighestLevel = this.HighestLevel;
             output.LowestLevel = this.LowestLevel;
+
+            output.useTopBorder = this.useTopBorder;
+            output.useBottomBorder = this.useBottomBorder;
+            output.useRightBorder = this.useRightBorder;
+            output.useLeftBorder = this.useLeftBorder;
 
             return output;
         }

@@ -21,7 +21,7 @@ namespace Dusty_Sapphire.Utilities
         /// </summary>
         /// <param name="seed"></param>
         /// <returns></returns>
-        public static int getRandomNumber(int seed)
+        public static int getRandomNumber(uint seed)
         {
             long bigSeed = seed;
             int output = 0;
@@ -46,10 +46,14 @@ namespace Dusty_Sapphire.Utilities
         ///     1) If we got HH or TT, try again
         ///     2) If we got HT, return H
         ///     3) If we got TH, return T
+        ///    
+        /// So we want to use BBS to generate (as independently as
+        /// possible) successive coinflips.  For now, we say an H
+        /// is "2x < p"
         /// </summary>
         /// <param name="seed"></param>
         /// <returns></returns>
-        public static bool coinFlip(int seed)
+        public static bool coinFlip(uint seed)
         {
             long bigSeed = seed;
             if (bigSeed == 0L || bigSeed == 1L)
@@ -58,17 +62,34 @@ namespace Dusty_Sapphire.Utilities
             while (true)
             {
                 bigSeed = (bigSeed * bigSeed) % largePrime;
-                long first = bigSeed & 1L;
+                bool first = bigSeed * 2L > largePrime;
 
                 bigSeed = (bigSeed * bigSeed) % largePrime;
-                long second = bigSeed & 1L;
+                bool second = bigSeed * 2L > largePrime;
 
                 if (first != second)
-                    return first == 1L;
+                    return first;
 
                 if (bigSeed == 0L || bigSeed == 1L)
                     throw new InvalidOperationException("Seed generated bad values, somehow.  Bad seed was: " + seed);
             }
+        }
+
+        /// <summary>
+        /// This combines two seeds into a single seed which
+        /// effectively uses the LSBs of both.  DO NOT REPEAT;
+        /// that is, if you want to combine x1, x2, x3, do not
+        /// use combine(x1, combine(x2, x3))!
+        /// 
+        /// It will completely lose the information of one of
+        /// the inputs (in this case, x2).
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="x2"></param>
+        /// <returns></returns>
+        public static uint combineIntoSeed(int x1, int x2)
+        {
+            return ((uint)x1 << 16) + ((uint)x2 & 65535);
         }
     }
 }
